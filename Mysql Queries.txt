@@ -1,0 +1,220 @@
+use sbibank;
+show tables;
+create table employees(
+ID int primary key not null,
+NAME varchar(45),
+EMP_ID int,
+DESIGNATION varchar(40),
+DOB date,
+SALARY int,
+CAMPANY varchar(40),
+CANTACT_NUMBER long);
+
+
+describe employees;
+select * from employees;
+insert into employees value (12,'Prathik',123,'Salesforce devoloper','1996-08-12','verchusa',9856463456);
+insert into employees value (2,'Raghu','125','Backend devoloper','1997-03-15',35000,'verchusa',9844350494);
+insert into employees value (3,'vishnu',128,'Salesforce devoloper','1998-07-15',30000,'Infoysis',9865348725);
+insert into employees value
+(4,'Ramesh','134','salesforce devoloper','1999-11-25',27000,'verchusa',89745631777),
+(5,'Rajesh',145,'Frontend devoloper','1995-11-26',45000,'infoysis',9845762315),
+(6,'GuruPrasad',146,'Backend devoloper','1994-06-14',55000,'Infoysis',9812563498),
+(7,'Koresh',154,'Backend devoloper','1997-08-20',40000,'Hcl','9845782318');
+
+insert into employees value
+(8,'Arunkumar',120,'Backend devoloper','1995-12-23',65000,'Hcl',8856374510),
+(9,'Manjunath','138','Frontend devoloper','1993-09-10',70000,'Accenture',9023597815),
+(10,'nikil','140','Full stack devoloper','1994-12-13',90000,'Accenture',9834569878),
+(11,'Ganesh','151','Full stack devoloper','1996-06-14','95000','Accentute',8548078524);
+
+insert into employees (ID,NAME,EMP_ID,DESIGNATION,DOB) VALUE (12,'Prathik',136,'Sql devoloper','1995-12-14');
+insert into employees (ID,NAME,EMP_ID,DESIGNATION,DOB) value
+(13,'Ramesh','134','salesforce devoloper','1999-11-25'),
+(14,'Rajesh',145,'Frontend devoloper','1995-11-26'),
+(15,'GuruPrasad',146,'Backend devoloper','1994-06-14'),
+(16,'Koresh',154,'Backend devoloper','1997-08-20'),
+(17,'Arunkumar',120,'Backend devoloper','1995-12-23'),
+(18,'Manjunath','138','Frontend devoloper','1993-09-10'),
+(19,'nikil','140','Full stack devoloper','1994-12-13'),
+(20,'Ganesh','151','Full stack devoloper','1996-06-14');
+select * from employees where id=1;
+select * from employees;
+select * from employees where name='Ramesh';
+update employees set salary=40000 where id=12;
+update employees set designation='Full stack devoloper' where id=1;
+update employees set CAMPANY='Influencer Labs',CANTACT_NUMBER=8756437612 WHERE id>=13 and id<=20;
+update employees set CAMPANY='Influencer Labs',CANTACT_NUMBER=8756437612 WHERE id=12;
+update employees set salary=38000 where id>=13 and id<=20;
+delete from employees where id=20;
+delete from employees;/* deletes all the records from table..*/
+truncate employees;/* delete all the records from the table */
+drop table employees;/*it cammand for deleting the table  */
+select distinct name from employees;
+select distinct campany from employees;
+select distinct designation from employees;
+select distinct campany,salary from employees;
+alter table employees add column EXPERIENCE int after DESIGNATION;
+update employees set EXPERIENCE=3 where id>=1 and id<=8;
+update employees set EXPERIENCE=4 where id>=9 and id<=14;
+update employees set EXPERIENCE=5 where id>=14 and id<=20;
+select * from employees where EXPERIENCE=3 or EXPERIENCE=4;
+select * from employees where EXPERIENCE=3 and EXPERIENCE=5;
+select * from employees where EXPERIENCE in(5);
+select * from employees where EXPERIENCE in (5,3);
+select * from employees where salary between 40000 and 50000; 
+select * from employees where emp_id between 121 and 135;
+select * from employees where dob between '1993-03-12' and '1996-02-15';
+select * from employees where emp_id between 125 and 140;
+select NAME,EXPERIENCE,CAMPANY,CANTACT_NUMBER from employees;
+select * from employees;
+select max(salary) from employees;
+select min(salary) from employees;
+select avg(salary) from employees;
+select sum(salary) from employees;
+select max(salary) as highest_salary from employees;
+select min(salary) as lowest_salary from employees;
+select avg(salary) as average_salary from employees;
+select count(id) as total_employees ,salary from employees;
+select count(id) as total_employees,salary from employees group by salary;
+select count(id) as total_employees,experience from employees group by experience;
+select count(id) as total_employees,salary from employees group by salary having salary<40000;
+select max(salary) as highest_salary ,designation from employees group by DESIGNATION;
+select max(salary) as highest_salary,designation from employees
+ group by designation having highest_salary<50000;
+ select * from employees;
+ select * from employees where name like 'r%';
+ select * from employees where name like '%h';
+ select * from employees limit 5;
+ select * from employees limit 10;
+ select * from employees order by id desc limit 10;
+ select * from employees order by id asc limit 15;
+ select max(salary) from employees;
+ select * from employees where salary=95000;
+ /* sub queries/nested query     
+ 1.it is a query inside the query
+ 2.we are writing sub queries inside the ()
+ 3.always sub queries/inner queries will executes first
+ 4.we cannot use order by in subquery
+ */ 
+ /* getting highest salary from employees */
+ select * from employees where salary=(select max(salary) from employees);
+ /* getting second highest salary from employee*/
+ select max(salary) from employees where salary !=(select max(salary) from employees);
+ select * from employees where salary=
+ (select max(salary) from employees where salary !=(select max(salary) from employees));
+ /* getting third highest salary from employees  */
+ select max(salary) from employees where salary <
+ (select max(salary) from employees where salary!=
+ (select max(salary) from employees));
+ /*getting the details of third highest salary*/
+ select * from employees where salary=(select max(salary) from employees where salary <
+ (select max(salary) from employees where salary!=
+ (select max(salary) from employees)));
+ /*use IN Operator in sub-query*/
+ select * from employees where DESIGNATION in(select DESIGNATION from employees where DESIGNATION like ('b%'));
+ /* group by  */
+select * from employees where DESIGNATION IN
+(select DESIGNATION from employees group by SALARY);
+/* having */
+select * from employees where DESIGNATION in
+(select DESIGNATION from employees where EXPERIENCE<5);
+
+select EXPERIENCE from employees group by SALARY having EXPERIENCE<5;
+select * from employees where DESIGNATION in 
+(select DESIGNATION from employees where EXPERIENCE<5 group by SALARY);
+
+/*select distinct TOP 2 salary from employees order by salary desc;*/
+SELECT * FROM `employees` ORDER BY `salary` DESC LIMIT 9 OFFSET 2;
+SELECT *
+FROM employees
+WHERE
+    Salary = (SELECT DISTINCT Salary
+        FROM employees
+        ORDER BY salary DESC
+     LIMIT 1 OFFSET 2
+     )
+LIMIT 1;
+select * from employees;
+/*inner join,left join,right join,full join,cross join  */
+create table customers (
+ID int primary key,
+NAME  varchar(45),
+CANTACT_NUMBER long,
+CITY varchar(45),
+PIN_CODE int);
+select * from customers;
+insert into customers values
+(1,'vishnu',8548078524,'davanager',577589),
+(2,'Ramesh',9844350494,'chennai',590123),
+(3,'Ganesh',8618035796,'Hubli',599781),
+(4,'Arun kumar',902351235,'Hydrabad',50012),
+(5,'Raju',98456731926,'Belagavi',599124),
+(6,'nikil',982460123,'Tumkur',500123);
+
+create table orders (
+ORDER_ID int,
+ORDER_DATE date not null,
+ORDER_AMOUNT decimal check (ORDER_AMOUNT>100),
+CUSTOMER_REF int,
+foreign key (CUSTOMER_REF) references customers(id));
+select * from orders;
+
+insert into orders value(
+100,'2022-01-15',1500,1),
+(101,'2022-08-12',2500,2),
+(103,'2022-03-20',5000,1),
+(104,'2021-10-13',6000,3),
+(105,'2021-08-18',8500,2),
+(106,'2021-12-01',10000,4),
+(107,'2021-03-26',15000,3),
+(108,'2022-02-13',2700,4),
+(109,'2022-06-14',22000,5);
+
+insert into orders(ORDER_ID,ORDER_DATE,ORDER_AMOUNT) value
+(110,'2022-01-15',1500),
+(111,'2022-08-12',2500),
+(112,'2022-03-20',5000),
+(13,'2021-10-13',6000),
+(114,'2021-08-18',8500),
+(115,'2021-12-01',10000);
+/*inner join,left join,right join,full join,cross join  */
+
+/* it will only selects matched data with customer_id from orders and id from customers */
+select C.ID,C.NAME, C.CANTACT_NUMBER,O.ORDER_ID,O.ORDER_DATE,O.ORDER_AMOUNT,O.CUSTOMER_REF
+FROM CUSTOMERS C INNER JOIN ORDERS O where C.ID=O.CUSTOMER_REF;
+
+select customers.id,customers.name,customers.CANTACT_NUMBER,
+orders.ORDER_ID,orders.ORDER_DATE,orders.ORDER_AMOUNT,orders.customer_ref from customers inner join orders where
+customers.id=orders.CUSTOMER_REF;
+select * from customers;
+select * from orders;
+/*      *first,it will show all the details left table and it will match the data fromk orders table
+based on id and customer_ref*/
+select * from customers left join orders on customers.id=orders.CUSTOMER_REF;
+select * from customers left join orders on customers.id=orders.CUSTOMER_REF where CUSTOMER_REF<4;
+select * from customers right join orders on customers.id=orders.customer_ref;
+select * from customers right join orders on customers.id=orders.customer_ref where customer_ref<2;
+
+select * from customers left join orders on customers.id=orders.CUSTOMER_REF
+union all
+select * from customers right join orders on customers.id=orders.customer_ref;
+select * from orders;
+describe orders;
+create table discount(
+ID INT,
+NAME varchar(25),
+PERCENTAGE decimal,
+ORDER_REF int,
+primary key (ID),
+foreign key (ORDER_REF) references orders (ORDER_ID));
+
+insert into discount(ID,NAME,PERCENTAGE) value(1,'Big bilion day',30);
+select * from discount;
+
+select * from orders cross join discount;
+select * from orders cross join customers;
+select * from orders;
+select * from customers;
+delete from customers where id=6;
+
